@@ -3,12 +3,13 @@
 <head>
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>Nota Laundry kucex</title>
+	<title>Nota Kucex Laundry</title>
 	<style>
 		:root {
 			--bg: #f4efe7;
-			--panel: rgba(255, 255, 255, 0.92);
-			--panel-strong: #fffaf4;
+			--panel: rgba(255, 255, 255, 0.5);
+			--panel-strong: rgba(255, 255, 255, 0.36);
+			--bg-photo: url("kasir.jpeg");
 			--text: #1f2a2e;
 			--muted: #617177;
 			--brand: #0f766e;
@@ -27,10 +28,15 @@
 			margin: 0;
 			color: var(--text);
 			font-family: Georgia, "Times New Roman", serif;
-			background:
+			background-image:
+				linear-gradient(180deg, rgba(251, 247, 242, 0.9) 0%, rgba(244, 239, 231, 0.92) 100%),
 				radial-gradient(circle at top left, rgba(15, 118, 110, 0.12), transparent 28%),
 				radial-gradient(circle at right top, rgba(200, 92, 46, 0.12), transparent 25%),
-				linear-gradient(180deg, #fbf7f2 0%, var(--bg) 100%);
+				var(--bg-photo);
+			background-size: auto, auto, auto, cover;
+			background-position: center, top left, right top, center;
+			background-repeat: no-repeat, no-repeat, no-repeat, no-repeat;
+			background-attachment: scroll, scroll, scroll, fixed;
 			min-height: 100vh;
 		}
 
@@ -54,10 +60,10 @@
 		.preview-card,
 		.guide-card {
 			background: var(--panel);
-			border: 1px solid rgba(255, 255, 255, 0.75);
+			border: 1px solid rgba(255, 255, 255, 0.5);
 			border-radius: 22px;
 			box-shadow: var(--shadow);
-			backdrop-filter: blur(10px);
+			backdrop-filter: blur(6px);
 		}
 
 		.brand-card {
@@ -91,6 +97,23 @@
 			margin-bottom: 18px;
 		}
 
+		.brand-head {
+			display: flex;
+			gap: 16px;
+			align-items: center;
+			margin-bottom: 8px;
+		}
+
+		.cashier-logo {
+			width: 90px;
+			height: 90px;
+			object-fit: contain;
+			background: #fff;
+			border: 1px solid var(--line);
+			border-radius: 16px;
+			padding: 6px;
+		}
+
 		h1 {
 			margin: 0 0 10px;
 			font-size: clamp(2rem, 4vw, 3.4rem);
@@ -114,7 +137,7 @@
 		}
 
 		.metric {
-			background: rgba(255, 255, 255, 0.78);
+			background: rgba(255, 255, 255, 0.3);
 			border: 1px solid var(--line);
 			border-radius: 18px;
 			padding: 14px;
@@ -203,7 +226,7 @@
 			width: 100%;
 			border: 1px solid #d8d0c7;
 			border-radius: 14px;
-			background: #fffdf9;
+			background: rgba(255, 255, 255, 0.42);
 			padding: 12px 14px;
 			color: var(--text);
 			font: 500 0.96rem/1.4 "Verdana", sans-serif;
@@ -263,11 +286,15 @@
 			border: 1px solid #d9d2c8;
 			border-radius: 12px;
 			padding: 10px 11px;
-			background: #fff;
+			background: rgba(255, 255, 255, 0.38);
 			font: 500 0.92rem/1.3 "Verdana", sans-serif;
 		}
 
 		.item-row input[type="number"] {
+			text-align: right;
+		}
+
+		.item-row .item-qty {
 			text-align: right;
 		}
 
@@ -289,6 +316,8 @@
 			background: rgba(15, 118, 110, 0.1);
 			color: var(--brand);
 			padding: 10px 12px;
+			display: inline-flex;
+			align-items: center;
 		}
 
 		.danger {
@@ -325,7 +354,7 @@
 		}
 
 		.summary-card {
-			background: #fffdf9;
+			background: rgba(255, 255, 255, 0.34);
 			border: 1px solid var(--line);
 			border-radius: 18px;
 			padding: 14px;
@@ -343,7 +372,7 @@
 		}
 
 		.preview {
-			background: #fffdf9;
+			background: rgba(255, 255, 255, 0.3);
 			border: 1px dashed #d9d0c6;
 			border-radius: 18px;
 			padding: 18px;
@@ -352,10 +381,27 @@
 		.invoice-head {
 			display: flex;
 			justify-content: space-between;
+			align-items: flex-start;
 			gap: 16px;
 			padding-bottom: 14px;
 			border-bottom: 1px solid var(--line);
 			margin-bottom: 14px;
+		}
+
+		.shop-header {
+			display: flex;
+			align-items: center;
+			gap: 10px;
+		}
+
+		.shop-logo {
+			width: 54px;
+			height: 54px;
+			object-fit: contain;
+			border-radius: 10px;
+			border: 1px solid var(--line);
+			padding: 3px;
+			background: #fff;
 		}
 
 		.shop-name {
@@ -461,7 +507,7 @@
 			padding: 12px;
 			border: 1px solid var(--line);
 			border-radius: 16px;
-			background: #fffdf9;
+			background: rgba(255, 255, 255, 0.34);
 		}
 
 		.price-chip strong {
@@ -549,6 +595,15 @@
 
 			.invoice-head {
 				flex-direction: row;
+			}
+
+			.brand-head {
+				align-items: start;
+			}
+
+			.cashier-logo {
+				width: 74px;
+				height: 74px;
 			}
 
 			.invoice-no {
@@ -644,8 +699,13 @@
 	<div class="wrap">
 		<div class="hero">
 			<section class="brand-card">
-				<div class="eyebrow">Laundry receipt builder</div>
-				<h1>Laundry kucex</h1>
+					<div class="brand-head">
+						<img id="cashierLogo" class="cashier-logo" src="kasir.jpeg" alt="Logo laundry" onerror="this.style.display='none'" />
+						<div>
+							<div class="eyebrow">Laundry receipt builder</div>
+							<h1>Kucex Laundry</h1>
+						</div>
+					</div>
 				<p class="subtitle">
 					Untuk selimut, boneka, dan mukena yang menyesuaikan ukuran atau belum ada harga pasti, Anda bisa isi manual.
 				</p>
@@ -693,7 +753,7 @@
 				<div class="grid-2">
 					<div class="field">
 						<label for="shopName">Nama laundry</label>
-						<input id="shopName" type="text" value="Laundry Bersih Cepat" />
+						<input id="shopName" type="text" value="Kucex Laundry" />
 					</div>
 					<div class="field">
 						<label for="invoiceNo">Nomor nota</label>
@@ -732,7 +792,7 @@
 				<div class="actions">
 					<button class="mini-btn" type="button" id="addItemBtn">+ Tambah item</button>
 					<button class="main-btn" type="button" id="printBtn">Print nota</button>
-					<button class="secondary-btn" type="button" id="resetBtn">Reset contoh</button>
+					<button class="mini-btn" type="button" id="historyBtn">Lihat riwayat</button>
 				</div>
 
 				<div class="summary">
@@ -762,10 +822,15 @@
 				<div class="preview" id="previewArea">
 					<div class="invoice-head">
 						<div>
-							<h3 class="shop-name" id="previewShopName">Laundry Bersih Cepat</h3>
-							<p class="shop-meta" id="previewMeta">
-								Jasa laundry pakaian, sprei, badcover, boneka, dan item khusus.
-							</p>
+							<div class="shop-header">
+								<img id="previewLogo" class="shop-logo" src="kasir.jpeg" alt="Logo laundry" onerror="this.style.display='none'" />
+								<div>
+									<h3 class="shop-name" id="previewShopName">Kucex Laundry</h3>
+									<p class="shop-meta" id="previewMeta">
+										Jasa laundry pakaian, sprei, badcover, dan boneka
+									</p>
+								</div>
+							</div>
 						</div>
 						<div class="invoice-no">
 							Nota
@@ -881,7 +946,7 @@
 				</select>
 			</div>
 			<div class="mobile-hide">
-				<input class="item-qty" type="number" min="1" value="1" />
+				<input class="item-qty" type="text" inputmode="decimal" value="1" />
 			</div>
 			<div>
 				<input class="item-price" type="number" min="0" step="500" value="14000" />
@@ -955,10 +1020,14 @@
 		const previewCustomerMeta = document.getElementById("previewCustomerMeta");
 		const previewTotal = document.getElementById("previewTotal");
 		const previewArea = document.getElementById("previewArea");
+		const cashierLogo = document.getElementById("cashierLogo");
+		const previewLogo = document.getElementById("previewLogo");
 
 		const defaultShopName = (shopName.value || previewShopName.textContent || "Laundry Bersih Cepat").trim();
 		const defaultInvoiceNo = (invoiceNo.value || previewInvoiceNo.textContent || "LN-001").trim();
 		const invoiceCounterKey = "notaLaundryCounterV1";
+		const invoiceHistoryKey = "notaLaundryHistoryV1";
+		const legacyLogoDataKey = "notaLaundryLogoV1";
 
 		shopName.value = defaultShopName;
 		invoiceNo.value = defaultInvoiceNo;
@@ -989,6 +1058,127 @@
 				currency: "IDR",
 				maximumFractionDigits: 0,
 			}).format(value || 0);
+		}
+
+		function parseQuantity(value, fallback = 1) {
+			const normalized = String(value ?? "").trim().replace(",", ".");
+			const parsed = Number.parseFloat(normalized);
+			return Number.isFinite(parsed) && parsed > 0 ? parsed : fallback;
+		}
+
+		function formatQuantity(value) {
+			if (!Number.isFinite(value)) {
+				return "0";
+			}
+
+			if (Number.isInteger(value)) {
+				return String(value);
+			}
+
+			return new Intl.NumberFormat("id-ID", {
+				maximumFractionDigits: 2,
+			}).format(value);
+		}
+
+		function readHistory() {
+			try {
+				const parsed = JSON.parse(localStorage.getItem(invoiceHistoryKey) || "[]");
+				return Array.isArray(parsed) ? parsed : [];
+			} catch {
+				return [];
+			}
+		}
+
+		function writeHistory(history) {
+			try {
+				localStorage.setItem(invoiceHistoryKey, JSON.stringify(history));
+			} catch {
+				// Abaikan jika storage penuh atau diblokir browser.
+			}
+		}
+
+		function getInvoiceSnapshot() {
+			const rows = getRows();
+			const items = rows.map((row) => {
+				const type = row.querySelector(".item-type").value;
+				const speed = row.querySelector(".item-speed").value;
+				const qty = parseQuantity(row.querySelector(".item-qty").value, 1);
+				const price = parseInt(row.querySelector(".item-price").value || "0", 10);
+				const subtotal = Math.round(qty * price);
+				return {
+					type,
+					speed,
+					qty,
+					price,
+					subtotal,
+				};
+			});
+
+			const qtyTotal = items.reduce((sum, item) => sum + item.qty, 0);
+			const priceTotal = items.reduce((sum, item) => sum + item.subtotal, 0);
+
+			return {
+				invoiceNo: invoiceNo.value || defaultInvoiceNo,
+				shopName: shopName.value || defaultShopName,
+				customerName: customerName.value || "-",
+				phone: phone.value || "-",
+				date: date.value || "-",
+				pickup: pickup.value || "-",
+				items,
+				itemCount: items.length,
+				qtyTotal,
+				priceTotal,
+				printedAt: new Date().toISOString(),
+			};
+		}
+
+		function addInvoiceToHistory() {
+			const snapshot = getInvoiceSnapshot();
+			if (!snapshot.items.length) {
+				return;
+			}
+
+			const history = readHistory();
+			const withoutSameInvoice = history.filter((entry) => entry.invoiceNo !== snapshot.invoiceNo);
+			withoutSameInvoice.unshift(snapshot);
+			writeHistory(withoutSameInvoice.slice(0, 200));
+		}
+
+		function showHistory() {
+			const history = readHistory();
+			if (!history.length) {
+				alert("Belum ada riwayat nota tersimpan.");
+				return;
+			}
+
+			const lines = history.slice(0, 15).map((entry, index) => {
+				const who = entry.customerName || "-";
+				const when = entry.date || "-";
+				const total = formatMoney(entry.priceTotal || 0);
+				return `${index + 1}. ${entry.invoiceNo} | ${who} | ${when} | ${total}`;
+			});
+
+			alert(`Riwayat nota (maks. tampil 15):\n\n${lines.join("\n")}`);
+		}
+
+		function restoreLegacyLogoIfAny() {
+			try {
+				const storedLogo = localStorage.getItem(legacyLogoDataKey);
+				if (!storedLogo) {
+					return;
+				}
+
+				[cashierLogo, previewLogo].forEach((img) => {
+					if (!img) {
+						return;
+					}
+
+					img.style.display = "";
+					img.src = storedLogo;
+				});
+			} catch {
+				// Abaikan jika akses localStorage diblokir browser.
+			}
 		}
 
 		function isManualType(type) {
@@ -1024,7 +1214,7 @@
 			function syncState() {
 				const type = typeSelect.value;
 				const speed = speedSelect.value;
-				const qty = Math.max(parseInt(qtyInput.value || "1", 10), 1);
+				const qty = parseQuantity(qtyInput.value, 1);
 
 				const resolved = defaultPrice !== null && isManualType(type) ? parseInt(priceInput.value || "0", 10) : resolvePrice(type, speed);
 				if (isManualType(type)) {
@@ -1038,7 +1228,7 @@
 				}
 
 				const currentPrice = parseInt(priceInput.value || "0", 10);
-				subtotalInput.value = formatMoney(currentPrice * qty);
+				subtotalInput.value = formatMoney(Math.round(currentPrice * qty));
 				updatePreview();
 			}
 
@@ -1099,9 +1289,9 @@
 			rows.forEach((row) => {
 				const type = row.querySelector(".item-type").value;
 				const speed = row.querySelector(".item-speed").value;
-				const qty = Math.max(parseInt(row.querySelector(".item-qty").value || "1", 10), 1);
+				const qty = parseQuantity(row.querySelector(".item-qty").value, 1);
 				const price = parseInt(row.querySelector(".item-price").value || "0", 10);
-				const subtotal = qty * price;
+				const subtotal = Math.round(qty * price);
 
 				items += 1;
 				qtyTotal += qty;
@@ -1111,7 +1301,7 @@
 				tr.innerHTML = `
 					<td>${typeLabels[type]}</td>
 					<td>${speedLabels[speed]}</td>
-					<td class="text-right">${qty}</td>
+					<td class="text-right">${formatQuantity(qty)}</td>
 					<td class="text-right">${formatMoney(price)}</td>
 					<td class="text-right">${formatMoney(subtotal)}</td>
 				`;
@@ -1125,7 +1315,7 @@
 			}
 
 			totalItems.textContent = items.toString();
-			totalQty.textContent = qtyTotal.toString();
+			totalQty.textContent = formatQuantity(qtyTotal);
 			totalPrice.textContent = formatMoney(priceTotal);
 			previewTotal.textContent = formatMoney(priceTotal);
 		}
@@ -1145,6 +1335,18 @@
 				return;
 			}
 
+			const customerCopy = `
+<section class="copy-block">
+  <div class="copy-label">Lembar Customer</div>
+  ${previewArea.outerHTML}
+</section>`;
+
+			const storeCopy = `
+<section class="copy-block">
+  <div class="copy-label">Arsip Toko</div>
+  ${previewArea.outerHTML}
+</section>`;
+
 			const printHtml = `<!DOCTYPE html>
 <html lang="id">
 <head>
@@ -1152,9 +1354,24 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>${previewInvoiceNo.textContent || "Nota Laundry"}</title>
 <style>
+:root { --print-bg-photo: url("background-nota.jpg"); }
 body { margin: 0; padding: 16px; font-family: Arial, Helvetica, sans-serif; color: #1f2a2e; }
+.copy-block {
+	margin-bottom: 18px;
+	page-break-after: always;
+	background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.92)), var(--print-bg-photo);
+	background-size: auto, cover;
+	background-position: center, center;
+	background-repeat: no-repeat;
+	border: 1px solid #d7d7d7;
+	border-radius: 10px;
+}
+.copy-block:last-child { page-break-after: auto; margin-bottom: 0; }
+.copy-label { margin-bottom: 8px; border: 1px dashed #9ca3af; border-radius: 8px; padding: 6px 10px; font-size: 11px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: #334155; }
 .preview { border: 0; padding: 0; }
 .invoice-head { display: flex; justify-content: space-between; gap: 16px; padding-bottom: 10px; margin-bottom: 10px; border-bottom: 1px solid #ddd; }
+.shop-header { display: flex; align-items: center; gap: 10px; }
+.shop-logo { width: 44px; height: 44px; object-fit: contain; border-radius: 8px; border: 1px solid #ddd; padding: 2px; background: #fff; }
 .shop-name { margin: 0 0 6px; font-size: 18px; }
 .shop-meta, .invoice-meta { margin: 0; color: #555; font-size: 12px; line-height: 1.5; }
 .invoice-no { text-align: right; font-size: 12px; color: #0f766e; font-weight: 700; }
@@ -1167,10 +1384,16 @@ body { margin: 0; padding: 16px; font-family: Arial, Helvetica, sans-serif; colo
 .grand-total span { font-size: 10px; text-transform: uppercase; color: #666; font-weight: 700; }
 .grand-total strong { font-size: 18px; color: #13795b; }
 .note-box { margin-top: 10px; padding: 10px 12px; border-radius: 10px; background: #f8f2ea; color: #6f3c1f; font-size: 11px; line-height: 1.45; }
+@media print {
+	* { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+	body { padding: 0; }
+	.copy-block { padding: 2mm; }
+}
 </style>
 </head>
 <body>
-${previewArea.outerHTML}
+${customerCopy}
+${storeCopy}
 <script>
 window.addEventListener("load", function () {
   window.print();
@@ -1196,13 +1419,12 @@ window.addEventListener("load", function () {
 
 		document.getElementById("printBtn").addEventListener("click", () => {
 			updatePreview();
+			addInvoiceToHistory();
 			fallbackPrintWindow();
 		});
 
-		document.getElementById("resetBtn").addEventListener("click", () => {
-			assignNewInvoiceNumber();
-			date.valueAsDate = new Date();
-			seedExample();
+		document.getElementById("historyBtn").addEventListener("click", () => {
+			showHistory();
 		});
 
 		[shopName, invoiceNo, customerName, phone, date, pickup].forEach((input) => {
@@ -1211,6 +1433,7 @@ window.addEventListener("load", function () {
 		});
 
 		date.valueAsDate = new Date();
+		restoreLegacyLogoIfAny();
 		assignNewInvoiceNumber();
 		seedExample();
 	</script>
