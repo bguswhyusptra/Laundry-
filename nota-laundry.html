@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>Nota Laundry</title>
+	<title>Nota Laundry kucex</title>
 	<style>
 		:root {
 			--bg: #f4efe7;
@@ -490,9 +490,47 @@
 		}
 
 		@media (max-width: 1020px) {
-			.hero,
+			body {
+				overflow-x: auto;
+			}
+
+			.wrap {
+				padding: 16px;
+				overflow-x: auto;
+				scrollbar-width: thin;
+				scrollbar-color: #b8c8c3 #ece6de;
+			}
+
+			.hero {
+				grid-template-columns: minmax(560px, 1fr) minmax(300px, 0.7fr);
+				min-width: 920px;
+			}
+
 			.layout {
-				grid-template-columns: 1fr;
+				grid-template-columns: minmax(640px, 1fr) minmax(400px, 0.75fr);
+				min-width: 1080px;
+			}
+
+			.items {
+				min-width: 700px;
+			}
+
+			.summary {
+				grid-template-columns: repeat(3, minmax(155px, 1fr));
+				min-width: 500px;
+			}
+
+			.grid-2 {
+				grid-template-columns: repeat(2, minmax(190px, 1fr));
+			}
+
+			.guide-grid {
+				grid-template-columns: repeat(2, minmax(220px, 1fr));
+				min-width: 470px;
+			}
+
+			.section-head {
+				align-items: center;
 			}
 		}
 
@@ -501,35 +539,20 @@
 				padding: 14px;
 			}
 
-			.hero-metrics,
-			.summary,
-			.guide-grid,
-			.grid-2 {
-				grid-template-columns: 1fr;
-			}
-
-			.items-header,
-			.item-row {
-				grid-template-columns: 1fr 1fr;
-			}
-
-			.items-header span:nth-child(3),
-			.items-header span:nth-child(4),
-			.items-header span:nth-child(5),
-			.items-header span:nth-child(6) {
-				display: none;
-			}
-
-			.item-row .mobile-hide {
-				display: none;
+			.brand-card,
+			.info-card,
+			.form-card,
+			.preview-card,
+			.guide-card {
+				border-radius: 18px;
 			}
 
 			.invoice-head {
-				flex-direction: column;
+				flex-direction: row;
 			}
 
 			.invoice-no {
-				text-align: left;
+				text-align: right;
 			}
 		}
 
@@ -622,9 +645,8 @@
 		<div class="hero">
 			<section class="brand-card">
 				<div class="eyebrow">Laundry receipt builder</div>
-				<h1>Nota Laundry yang rapi, cepat, dan bisa dicetak.</h1>
+				<h1>Laundry kucex</h1>
 				<p class="subtitle">
-					Template ini dibuat dari daftar layanan dan harga yang Anda kirim. Item yang punya harga tetap akan dihitung otomatis.
 					Untuk selimut, boneka, dan mukena yang menyesuaikan ukuran atau belum ada harga pasti, Anda bisa isi manual.
 				</p>
 				<div class="hero-metrics">
@@ -932,6 +954,34 @@
 		const previewInvoiceNo = document.getElementById("previewInvoiceNo");
 		const previewCustomerMeta = document.getElementById("previewCustomerMeta");
 		const previewTotal = document.getElementById("previewTotal");
+		const previewArea = document.getElementById("previewArea");
+
+		const defaultShopName = (shopName.value || previewShopName.textContent || "Laundry Bersih Cepat").trim();
+		const defaultInvoiceNo = (invoiceNo.value || previewInvoiceNo.textContent || "LN-001").trim();
+		const invoiceCounterKey = "notaLaundryCounterV1";
+
+		shopName.value = defaultShopName;
+		invoiceNo.value = defaultInvoiceNo;
+
+		function formatInvoiceNumber(sequence) {
+			return `LN-${String(sequence).padStart(3, "0")}`;
+		}
+
+		function getNextInvoiceNumber() {
+			try {
+				const saved = parseInt(localStorage.getItem(invoiceCounterKey) || "0", 10);
+				const next = Number.isFinite(saved) && saved >= 0 ? saved + 1 : 1;
+				localStorage.setItem(invoiceCounterKey, String(next));
+				return formatInvoiceNumber(next);
+			} catch {
+				const fallback = parseInt((defaultInvoiceNo.match(/\d+/) || ["0"])[0], 10);
+				return formatInvoiceNumber((Number.isFinite(fallback) ? fallback : 0) + 1);
+			}
+		}
+
+		function assignNewInvoiceNumber() {
+			invoiceNo.value = getNextInvoiceNumber();
+		}
 
 		function formatMoney(value) {
 			return new Intl.NumberFormat("id-ID", {
@@ -1030,8 +1080,8 @@
 		}
 
 		function updatePreview() {
-			previewShopName.textContent = shopName.value || "Laundry Bersih Cepat";
-			previewInvoiceNo.textContent = invoiceNo.value || "LN-001";
+			previewShopName.textContent = shopName.value || defaultShopName;
+			previewInvoiceNo.textContent = invoiceNo.value || defaultInvoiceNo;
 			previewCustomerMeta.innerHTML = `
 				Pelanggan: ${customerName.value || "-"}<br />
 				No. HP: ${phone.value || "-"}<br />
@@ -1088,6 +1138,53 @@
 			updatePreview();
 		}
 
+		function fallbackPrintWindow() {
+			const printWindow = window.open("", "_blank", "width=900,height=700");
+			if (!printWindow) {
+				alert("Popup terblokir. Izinkan popup lalu coba print lagi, atau gunakan Ctrl+P.");
+				return;
+			}
+
+			const printHtml = `<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>${previewInvoiceNo.textContent || "Nota Laundry"}</title>
+<style>
+body { margin: 0; padding: 16px; font-family: Arial, Helvetica, sans-serif; color: #1f2a2e; }
+.preview { border: 0; padding: 0; }
+.invoice-head { display: flex; justify-content: space-between; gap: 16px; padding-bottom: 10px; margin-bottom: 10px; border-bottom: 1px solid #ddd; }
+.shop-name { margin: 0 0 6px; font-size: 18px; }
+.shop-meta, .invoice-meta { margin: 0; color: #555; font-size: 12px; line-height: 1.5; }
+.invoice-no { text-align: right; font-size: 12px; color: #0f766e; font-weight: 700; }
+.invoice-no strong { display: block; color: #1f2a2e; font-size: 16px; margin-top: 4px; }
+.invoice-table { width: 100%; border-collapse: collapse; font-size: 11px; margin-top: 8px; }
+.invoice-table th, .invoice-table td { border-bottom: 1px solid #ddd; padding: 6px 5px; text-align: left; vertical-align: top; }
+.invoice-table th { font-size: 10px; text-transform: uppercase; letter-spacing: 0.05em; background: #f3f7f6; }
+.text-right { text-align: right !important; }
+.grand-total { display: flex; justify-content: space-between; align-items: center; padding: 10px 12px; margin-top: 10px; border-radius: 10px; background: #eef5f3; }
+.grand-total span { font-size: 10px; text-transform: uppercase; color: #666; font-weight: 700; }
+.grand-total strong { font-size: 18px; color: #13795b; }
+.note-box { margin-top: 10px; padding: 10px 12px; border-radius: 10px; background: #f8f2ea; color: #6f3c1f; font-size: 11px; line-height: 1.45; }
+</style>
+</head>
+<body>
+${previewArea.outerHTML}
+<script>
+window.addEventListener("load", function () {
+  window.print();
+  window.addEventListener("afterprint", function () { window.close(); });
+});
+<\/script>
+</body>
+</html>`;
+
+			printWindow.document.open();
+			printWindow.document.write(printHtml);
+			printWindow.document.close();
+		}
+
 		document.getElementById("addItemBtn").addEventListener("click", () => {
 			itemList.appendChild(createRow());
 			updatePreview();
@@ -1098,10 +1195,15 @@
 		});
 
 		document.getElementById("printBtn").addEventListener("click", () => {
-			window.print();
+			updatePreview();
+			fallbackPrintWindow();
 		});
 
-		document.getElementById("resetBtn").addEventListener("click", seedExample);
+		document.getElementById("resetBtn").addEventListener("click", () => {
+			assignNewInvoiceNumber();
+			date.valueAsDate = new Date();
+			seedExample();
+		});
 
 		[shopName, invoiceNo, customerName, phone, date, pickup].forEach((input) => {
 			input.addEventListener("input", updatePreview);
@@ -1109,6 +1211,7 @@
 		});
 
 		date.valueAsDate = new Date();
+		assignNewInvoiceNumber();
 		seedExample();
 	</script>
 </body>
